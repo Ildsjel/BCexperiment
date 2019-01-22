@@ -15,7 +15,7 @@ class Block {
 
     }
 
-//here is the factory which produces the hashes for our blocks
+//here is the factory which produces the hashes for our blocks. it created the hash attribute for the block object
     calculateHash() {
         return SHA256(this.index +
             this.previousHash +
@@ -24,6 +24,12 @@ class Block {
             this.nonce
         ).toString();
     }
+/*
+this decides on the difficulty to avoid spamming the chain.
+it loops through the hashes and searches for hashes corresponding to one starting with
+specified amounts of 0s. So if the difficulty is "4" the hash has to start with "0000"
+This is also referred to as the "Proof of Work".
+ */
 
     mineBlock(difficulty) {
         while (this.hash.substring(0, difficulty) !== Array(difficulty + 1).join("0")) {
@@ -35,10 +41,12 @@ class Block {
 
 }
 
+//this class constructs the chain itself and ties the blocks together and makes them immutable.
+
 class Blockchain{
     constructor() {
         this.chain = [this.createGenesisBlock()];
-        this.difficulty = 3; //here you can set the difficulty. Increasing it will lead to a longer waiting time until a block is created
+        this.difficulty = 4; //here you can set the difficulty. Increasing it will lead to a longer waiting time until a block is created
     }
     //we create a genesis block. the genesis block is always the first entry of a blockchain. genesis as naming, is only taken by convention
     createGenesisBlock() {
@@ -84,11 +92,8 @@ trivagoBC.addBlock(new Block(2, "01/01/2019", {amount: 8}));
 console.log(JSON.stringify(trivagoBC, null, 4));
 console.log("is Chain valid? " + trivagoBC.isChainValid());
 
-//log blockchain to comsole and validate its integrity
-
-
 //Attempt to manipulate data of an existing indexed entry
-trivagoBC.chain[1].data = { amount: 150 }; //doesn't work if mining process is active
+trivagoBC.chain[1].data = { amount: 150 };
 
 // Check our chain again (will now return false)
 console.log("Blockchain valid? " + trivagoBC.isChainValid());
