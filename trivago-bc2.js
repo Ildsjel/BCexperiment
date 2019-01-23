@@ -42,15 +42,15 @@ This is also referred to as the "Proof of Work".
 }
 
 //this class constructs the chain itself and ties the blocks together and makes them immutable.
-
+//TODO the blockchain needs to be distributed and copied to all participants of a transactional space
 class Blockchain{
     constructor() {
-        this.chain = [this.createGenesisBlock()];
+        this.chain = [this.createGenesisBlock()]; //TODO make genesis block uncorruptable
         this.difficulty = 4; //here you can set the difficulty. Increasing it will lead to a longer waiting time until a block is created
     }
     //we create a genesis block. the genesis block is always the first entry of a blockchain. genesis as naming, is only taken by convention
     createGenesisBlock() {
-        return new Block (0, "01/01/2017", "Genesis block", "0")
+        return new Block (0, "01/01/2017", "Genesis block", "0") //TODO this can be manipulated - needs to be tackled. Ask what to do about it
     }
     //we go back in the blockchain one step to know the latest "active" block
     getLatestBlock() {
@@ -83,6 +83,7 @@ class Blockchain{
 }
 
 //add test entries to blockchain
+//TODO make these (User) InPuts
 let trivagoBC = new Blockchain();
 console.log('Mining block 1...');
 trivagoBC.addBlock(new Block(1, "01/01/2019", {amount: 4}));
@@ -94,6 +95,7 @@ console.log("is Chain valid? " + trivagoBC.isChainValid());
 
 //Attempt to manipulate data of an existing indexed entry
 trivagoBC.chain[1].data = { amount: 150 };
+//TODO check why this is not working
 
 // Check our chain again (will now return false)
 console.log("Blockchain valid? " + trivagoBC.isChainValid());
