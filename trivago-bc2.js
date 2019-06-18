@@ -65,7 +65,7 @@ class Blockchain{
         this.chain.push(newBlock);
     }
     isChainValid() {
-        for (let i = 1; i > this.chain.length; i++) {
+        for (let i = 1; i < this.chain.length; i++) {
             const currentBlock = this.chain[i];
             const previousBlock = this.chain[i - 1];
 
@@ -86,25 +86,16 @@ class Blockchain{
 //TODO make these (User) InPuts
 let trivagoBC = new Blockchain();
 console.log('Mining block 1...');
-trivagoBC.addBlock(new Block(1, "01/01/2019", {amount: 4}));
+trivagoBC.addBlock(new Block(1, "01/01/2019", { amount: 4 }));
 console.log('Mining block 2...');
-trivagoBC.addBlock(new Block(2, "01/01/2019", {amount: 8}));
+trivagoBC.addBlock(new Block(2, "01/01/2019", { amount: 8 }));
 
 console.log(JSON.stringify(trivagoBC, null, 4));
 console.log("is Chain valid? " + trivagoBC.isChainValid());
 
 //Attempt to manipulate data of an existing indexed entry
-trivagoBC.chain[1].data = { amount: 150 };
-//TODO check why this is not working
+trivagoBC.chain[1].data = { amount: 16 };
+trivagoBC.chain[1].hash = trivagoBC.chain[1].calculateHash();
 
 // Check our chain again (will now return false)
 console.log("Blockchain valid? " + trivagoBC.isChainValid());
-
-
-
-
-
-
-
-
-
